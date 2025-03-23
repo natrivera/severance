@@ -1,0 +1,89 @@
+
+body {
+  background-color: #00143c;
+  color: #64b4dc;
+}
+
+#top {
+  border: #64b4dc solid;
+  margin: 2% 1%;
+  font-size: 2em;
+}
+
+#spreads {
+  height: 70vh; 
+  overflow: scroll;
+  font-size: 2em;
+  scrollbar-width: none;
+}
+
+table {
+  width: 180%;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 5px double #64b4dc;
+    padding: 0;
+}
+
+td {
+  animation: float 3s ease-in-out infinite;
+  padding: 1%;
+  user-select: none;
+}
+
+th {
+  display: none;  
+}
+
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.selected {
+  color: #ffffff;
+  font-size: 1.25em;
+}
+
+#bot {
+  margin: 0% 2%;
+}
+
+.botbox {
+  border: #64b4dc solid;
+  margin: 0% 1% 1% 2%;
+}
+
+
+.barchart {
+  background-color: #ffffff;
+  width: 0%;
+  margin: 0%;
+}
+
+
+.centered-div {
+  background-color: #00143c;
+  color: #64b4dc;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border: #64b4dc solid;
+}
+
