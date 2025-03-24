@@ -2,4 +2,4 @@
 
 
 
-![Severance](numbys.png)
+![Severance](numbys.gif)
