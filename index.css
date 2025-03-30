@@ -6,8 +6,9 @@ body {
 
 #top {
   border: #64b4dc solid;
-  margin: 2% 1%;
+  width: 95vw;
   font-size: 2em;
+  margin-top: 1%;
 }
 
 #spreads {
@@ -27,6 +28,7 @@ hr {
     border: 0;
     border-top: 5px double #64b4dc;
     padding: 0;
+    background-color: #00143c;
 }
 
 td {
@@ -61,11 +63,15 @@ th {
 
 #bot {
   margin: 0% 2%;
+  z-index: 1;
+  position: relative;
+  background-color: #00143c;
 }
 
 .botbox {
   border: #64b4dc solid;
   margin: 0% 1% 1% 2%;
+  padding: 0%;
 }
 
 
@@ -73,6 +79,10 @@ th {
   background-color: #ffffff;
   width: 0%;
   margin: 0%;
+}
+
+.belowchart {
+  height: 0px;
 }
 
 
@@ -85,5 +95,12 @@ th {
   transform: translate(-50%, -50%);
   padding: 20px;
   border: #64b4dc solid;
+}
+
+#numanim {
+  color: #ffffff;
+  font-size: 1.25em;
+  transition: all .5s ease-in-out;
+  z-index: 0;
 }
 

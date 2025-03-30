@@ -6,7 +6,12 @@ var v_list = 0;
 var b_list = 0;
 var n_list = 0;
 var m_list = 0;
+var curr_list = [];
+var min_anim = 3;
+var max_anim = 9;
 var full_list = 25;
+var targetdiv = '';
+var click_flag = false;
 
 
 
@@ -51,7 +56,9 @@ function load_numbys() {
     temp_list = generateRandomNumbers(52,0,9);
     
     for (var j = 0; j < temp_list.length; j++) {
-      row.append('<td style="animation-duration: '+ generateRandomNumby(6,12) +'s;">' + temp_list[j] + '</td>');
+      row.append('<td style="animation-duration: '+ 
+                  generateRandomNumby(min_anim, max_anim) +'s;">' + 
+                  temp_list[j] + '</td>');
     }
     
     tableBody.append(row);
@@ -135,8 +142,10 @@ spreadsheet.addEventListener('mouseup', () => {
 });
 
 
-// when c is pressed
+// when a keyboard button is pressed
 document.addEventListener('keydown', function(event) {
+  
+  click_flag = false;
   
   var elements = document.querySelectorAll(`.${'selected'}`);
   
@@ -144,81 +153,128 @@ document.addEventListener('keydown', function(event) {
     var selects = elements.length ;
     c_list = c_list + selects;
     if (c_list >= 25) { c_list = 25;}
-    new_width = '' + (c_list / full_list * 100) + '%';
+    new_width = '  ' + (c_list / full_list * 100) + '%';
     $('#barc').css('width', new_width);
     $('#barc').html(new_width);
+    targetdiv = 'barcb';
+    click_flag = true;
   } 
   
   if (event.key === 'v' | event.key === 'V' ) { 
     var selects = elements.length;
     v_list = v_list + selects;
     if (v_list >= 25) { v_list = 25;}
-    new_width = '' + (v_list / full_list * 100) + '%';
+    new_width = '  ' + (v_list / full_list * 100) + '%';
     $('#barv').css('width', new_width);
     $('#barv').html(new_width);
+    targetdiv = 'barvb';
+    click_flag = true;
   } 
   
   if (event.key === 'b' | event.key === 'B' ) { 
     var selects = elements.length;
     b_list = b_list + selects;
     if (b_list >= 25) { b_list = 25;}
-    new_width = '' + (b_list / full_list * 100) + '%';
+    new_width = '  ' + (b_list / full_list * 100) + '%';
     $('#barb').css('width', new_width);
     $('#barb').html(new_width);
+    targetdiv = 'barbb';
+    click_flag = true;
   } 
   
   if (event.key === 'n' | event.key === 'N' ) { 
     var selects = elements.length;
     n_list = n_list + selects;
     if (n_list >= 25) { n_list = 25;}
-    new_width = '' + (n_list / full_list * 100) + '%';
+    new_width = '  ' + (n_list / full_list * 100) + '%';
     $('#barn').css('width', new_width);
     $('#barn').html(new_width);
+    targetdiv = 'barnb';
+    click_flag = true;
   } 
   
   if (event.key === 'm' | event.key === 'M' ) { 
     var selects = elements.length;
     m_list = m_list + selects;
     if (m_list >= 25) { m_list = 25;}
-    new_width = '' + Math.round(m_list / full_list * 100) + '%';
+    new_width = '  ' + Math.round(m_list / full_list * 100) + '%';
     $('#barm').css('width', new_width);
     $('#barm').html(new_width);
+    targetdiv = 'barmb';
+    click_flag = true;
   } 
   
-  var newTotal = (c_list + v_list + b_list + n_list + m_list ) / (5*full_list) * 100;
-  var newTotal_text = ' ' + Math.round(newTotal) + '% Complete';
-  $('#completeness').html(newTotal_text);
   
-  for (var i = 0; i < elements.length; i++) {
-    elements[i].innerHTML = '';
-  }
-  
-  // wait a second and reload numbers
-  setTimeout(function() {
-      elements = document.querySelectorAll(`.${'selected'}`);
+  if(click_flag) {
+    
+      var newTotal = (c_list + v_list + b_list + n_list + m_list ) / (5*full_list) * 100;
+      var newTotal_text = ' ' + Math.round(newTotal) + '% Complete';
+      $('#completeness').html(newTotal_text);
+      
+      
+      // animate numbers falling into box
+      
+      numanimblock = document.getElementById("numanim");
+      numanimblock.style.display = "block";
+      
       for (var i = 0; i < elements.length; i++) {
-        //console.log(elements[i]);
-        //elements[i].innerHTML = '';
-        elements[i].innerHTML = generateRandomNumby(0,9);
+        $('#numanim').append(elements[i].innerHTML);
+        if(i % 10 == 0) {
+          $('#numanim').append('<br>');
+        }
       }
-      // remove selected class
-      document.getElementById('spreadsheet').querySelectorAll('td, th').forEach(cell => {
-        cell.classList.remove('selected');
-      });
-    }, 1000);
+      //moveText(targetdiv);
+      moveElement(targetdiv);
+      
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].innerHTML = '';
+      }
+      
+      // wait a second and reload numbers
+      setTimeout(function() {
+          elements = document.querySelectorAll(`.${'selected'}`);
+          for (var i = 0; i < elements.length; i++) {
+            elements[i].innerHTML = generateRandomNumby(0,9);
+          }
+          
+          // remove selected class
+          document.getElementById('spreadsheet').querySelectorAll('td, th').forEach(cell => {
+            cell.classList.remove('selected');
+          });
+          
+          numanimblock.style.display = "none";
+          numanimblock.style.top = "50%";
+          numanimblock.style.left = "50%";
+          numanimblock.innerHTML = '';
+          
+        }, 1000);
+      
+      // show message if program is completed
+      if (newTotal >= 100) { document.getElementById("message").style.display = "block"; }
+    
+  } // end of certain buttoned was pressed
   
-  if (newTotal >= 100) { document.getElementById("message").style.display = "block"; }
+}); // end of keyboard button is pressed
+
+
+
+
+// hides the message after program is completed and uses clicks to hide
+function hideAlert() { document.getElementById("message").style.display = "none"; }
+
+
+
+function moveElement(targetdiv) {
+  const div = document.getElementById('numanim');
   
-});
-
-
-
-
-
-
-
-function hideAlert() {
-  document.getElementById("message").style.display = "none";
+  const myDiv = document.getElementById(targetdiv);
+  const rect = myDiv.getBoundingClientRect();
+  const x = rect.x + 100;
+  const y = rect.y + 20;
+  
+  div.style.top = y + `px`;
+  div.style.left = x  + `px`;
+  
 }
 
 
